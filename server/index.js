@@ -1,16 +1,23 @@
 const express = require('express');
+const morgan = require('morgan');
 let app = express();
+const db = require('../database/');
 
-// TODO - your code here!
-// Set up static file service for files in the `client/dist` directory.
-// Webpack is configured to generate files in that directory and
-// this server must serve those files when requested.
+/* MIDDLEWARE */
+app.use(morgan('dev'));
+app.use(express.json());
 
+/* SERVE STATIC FILES */
+app.use(express.static('client/dist'));
+
+/* ROUTES */
 app.post('/repos', function (req, res) {
   // TODO - your code here!
   // This route should take the github username provided
   // and get the repo information from the github API, then
   // save the repo information in the database
+  console.log(req.body);
+  res.send(req.body);
 });
 
 app.get('/repos', function (req, res) {
