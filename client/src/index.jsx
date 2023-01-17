@@ -4,6 +4,8 @@ import $ from 'jquery';
 import Search from './components/Search.jsx';
 import RepoList from './components/RepoList.jsx';
 
+const EXAMPLE_USERNAME = 'lichess-org';
+
 const App = () => {
 
   const [repos, setRepos] = useState([]);
@@ -15,8 +17,8 @@ const App = () => {
   useEffect(() => {
     $.ajax({
       method: "POST",
-      url: "http://localhost:1128/repos",
-      data: JSON.stringify({ 'hello': 'world' }),
+      url: "http://localhost:1128/api/repos",
+      data: JSON.stringify({query: EXAMPLE_USERNAME}),
       contentType: "application/json; charset=utf-8"
     }).done((response) => {
       console.log(response);

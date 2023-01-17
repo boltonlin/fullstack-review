@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 const repos = require('./repos');
 
 module.exports.schema = mongoose.Schema({
-  id: Number,
+  _id: mongoose.ObjectId,
   name: String,
-  repos: [repos.schema]
+  avatarUrl: String,
+  repos: [mongoose.ObjectId]
 });

@@ -1,8 +1,11 @@
 const mongoose = require('mongoose');
 
 module.exports.schema = mongoose.Schema({
-  id: Number,
+  _id: mongoose.ObjectId,
   name: String,
-  owner: String,
-  htmlUrl: String
+  owner: mongoose.ObjectId,
+  htmlUrl: String,
+  forks: Number,
+  stargazers: Number,
+  watchers: Number,
 });

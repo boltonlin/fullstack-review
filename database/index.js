@@ -15,10 +15,10 @@ db.once('connected', () => {
 let Repo = mongoose.model('Repo', repo.schema);
 let Owner = mongoose.model('Owner', owner.schema);
 
-let save = (/* TODO */) => {
-  // TODO: Your code here
-  // This function should save a repo or repos to
-  // the MongoDB
+let save = (repo) => {
+  // TODO
+  // save repo to repo collection
+  // check if owner is in owner collection, add if not
 }
 
 module.exports.save = save;
