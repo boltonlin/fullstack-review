@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import Search from './components/Search.jsx';
@@ -11,6 +11,17 @@ const App = () => {
   const search = (term) => {
     console.log(`${term} was searched`);
   }
+
+  useEffect(() => {
+    $.ajax({
+      method: "POST",
+      url: "http://localhost:1128/repos",
+      data: JSON.stringify({ 'hello': 'world' }),
+      contentType: "application/json; charset=utf-8"
+    }).done((response) => {
+      console.log(response);
+    });
+  }, []);
 
   return (
     <div>
