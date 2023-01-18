@@ -25,24 +25,41 @@ let save = (repo) => {
     stargazers: repo.stargazers_count,
     watchers: repo.watchers_count,
   });
-  return newRepo.save()
-    .then(() => {
-      return Owner.findOne({_id: repo.owner.id});
-    })
+  return Repo.findOne({_id: repo.id})
     .then((found) => {
       if (!found) {
-        let newOwner = new Owner({
-          _id: repo.owner.id,
-          name: repo.owner.login,
-          avatarUrl: repo.owner.avatar_url
-        });
-        newOwner.repos.push(newRepo);
-        return newOwner.save();
+        return newRepo.save()
+          .then(() => {
+            return Owner.findOne({_id: repo.owner.id});
+          })
+          .then((found) => {
+            if (!found) {
+              let newOwner = new Owner({
+                _id: repo.owner.id,
+                name: repo.owner.login,
+                htmlUrl: repo.owner.html_url,
+                avatarUrl: repo.owner.avatar_url
+              });
+              newOwner.repos.push(newRepo);
+              return newOwner.save();
+            } else {
+              found.repos.push(newRepo);
+              return found.save();
+            }
+          })
+          .then(() => {
+            return true;
+          });
       } else {
-        found.repos.push(newRepo);
-        return found.save();
+        return false;
       }
-    });
+    })
+}
+
+let readAllRepos = () => {
+  return Repo.find()
+    .populate('owner');
 }
 
 module.exports.save = save;
+module.exports.readAllRepos = readAllRepos;
