@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const repo = require('./repos');
 const owner = require('./owners');
 
-mongoose.connect('mongodb://localhost/fetcher', {
+mongoose.connect(process.env.DATABASE_LOC, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });

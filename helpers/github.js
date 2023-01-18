@@ -1,12 +1,11 @@
 const axios = require('axios');
-const config = require('../config.js');
 
 let getReposByUsername = (username) => {
   let options = {
     url: `https://api.github.com/users/${username}/repos`,
     headers: {
       'User-Agent': 'request',
-      'Authorization': `token ${config.TOKEN}`,
+      'Authorization': `token ${process.env.GITHUB_API_TOKEN}`,
       'Accept': `application/vnd.github+json`,
     },
     params: {
