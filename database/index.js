@@ -16,9 +16,33 @@ let Repo = mongoose.model('Repo', repo.schema);
 let Owner = mongoose.model('Owner', owner.schema);
 
 let save = (repo) => {
-  // TODO
-  // save repo to repo collection
-  // check if owner is in owner collection, add if not
+  let newRepo = new Repo({
+    _id: repo.id,
+    name: repo.name,
+    owner: repo.owner.id,
+    htmlUrl: repo.html_url,
+    forks: repo.forks,
+    stargazers: repo.stargazers_count,
+    watchers: repo.watchers_count,
+  });
+  return newRepo.save()
+    .then(() => {
+      return Owner.findOne({_id: repo.owner.id});
+    })
+    .then((found) => {
+      if (!found) {
+        let newOwner = new Owner({
+          _id: repo.owner.id,
+          name: repo.owner.login,
+          avatarUrl: repo.owner.avatar_url
+        });
+        newOwner.repos.push(newRepo);
+        return newOwner.save();
+      } else {
+        found.repos.push(newRepo);
+        return found.save();
+      }
+    });
 }
 
 module.exports.save = save;

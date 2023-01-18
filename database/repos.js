@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 module.exports.schema = mongoose.Schema({
-  _id: mongoose.ObjectId,
+  _id: Number,
   name: String,
-  owner: mongoose.ObjectId,
+  owner: {type: Number, ref: 'Owner'},
   htmlUrl: String,
   forks: Number,
   stargazers: Number,
