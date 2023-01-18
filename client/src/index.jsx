@@ -1,27 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import $ from 'jquery';
 import Search from './components/Search.jsx';
 import RepoList from './components/RepoList.jsx';
+import fetcher from './fetcher';
 
-const EXAMPLE_USERNAME = 'lichess-org';
-
-const App = () => {
+const App = ({
+  fetcher
+}) => {
 
   const [repos, setRepos] = useState([]);
 
-  const search = (term) => {
-    console.log(`${term} was searched`);
+  const search = (username) => {
+    fetcher.addReposByUser(username,
+      fetcher.getTopRepos.bind(fetcher, 25,
+        (results) => {
+          setRepos(results);
+        }
+      ));
   }
 
   useEffect(() => {
-    $.ajax({
-      method: "POST",
-      url: "http://localhost:1128/api/repos",
-      data: JSON.stringify({query: EXAMPLE_USERNAME}),
-      contentType: "application/json; charset=utf-8"
-    }).done((response) => {
-      console.log(response);
+    fetcher.getTopRepos(25, (results) => {
+      setRepos(results);
     });
   }, []);
 
@@ -34,4 +34,4 @@ const App = () => {
   );
 }
 
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(<App fetcher={fetcher} />, document.getElementById('app'));

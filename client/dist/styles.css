@@ -1,0 +1,17 @@
+li.repo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+img.owner-avatar {
+  max-width: 6em;
+  padding: 0 1em 0 0;
+}
+
+ul.repo-list {
+  max-height: 50em;
+  max-width: none;
+  overflow-y: scroll;
+  padding: 0;
+}

@@ -20,6 +20,7 @@ let save = (repo) => {
     _id: repo.id,
     name: repo.name,
     owner: repo.owner.id,
+    description: repo.description,
     htmlUrl: repo.html_url,
     forks: repo.forks,
     stargazers: repo.stargazers_count,
@@ -49,6 +50,9 @@ let save = (repo) => {
           })
           .then(() => {
             return true;
+          })
+          .catch((err) => {
+            throw new Error(err);
           });
       } else {
         return false;
