@@ -2,17 +2,16 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import Search from './components/Search.jsx';
 import RepoList from './components/RepoList.jsx';
-import fetcher from './fetcher';
 
 const App = ({
-  fetcher
+  fetcherProp
 }) => {
 
   const [repos, setRepos] = useState([]);
 
   const search = (username) => {
-    fetcher.addReposByUser(username,
-      fetcher.getTopRepos.bind(fetcher, 25,
+    fetcherProp.addReposByUser(username,
+      fetcherProp.getTopRepos.bind(fetcherProp, 25,
         (results) => {
           setRepos(results);
         }
@@ -21,7 +20,7 @@ const App = ({
   }
 
   useEffect(() => {
-    fetcher.getTopRepos(25, (results) => {
+    fetcherProp.getTopRepos(25, (results) => {
       setRepos(results);
     });
   }, []);
@@ -35,4 +34,6 @@ const App = ({
   );
 }
 
-ReactDOM.render(<App fetcher={fetcher} />, document.getElementById('app'));
+const fetcher = require('./fetcher');
+
+ReactDOM.render(<App fetcherProp={fetcher} />, document.getElementById('app'));
