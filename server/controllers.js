@@ -13,13 +13,12 @@ module.exports = {
     github.getReposByUsername(query)
       .then((results) => {
         // tell db to save each repo (results.data)
-        results.data.reduce((p, repo) => {
+        return results.data.reduce((p, repo) => {
           return p.then(() => db.save(repo));
         }, Promise.resolve());
-        return results.data.length;
       })
       // respond with success
-      .then((results) => {
+      .then(() => {
         res.status(201).send(`Added repos.`);
       })
       .catch((err) => {
@@ -46,6 +45,9 @@ module.exports = {
             ownerAvatar: result.owner.avatarUrl,
           });
         }
+        return repos;
+      })
+      .then((repos) => {
         res.status(200).send(
           repos.sort((repoB, repoA) => {
             if (repoA.score < repoB.score) return -1;

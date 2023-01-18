@@ -16,7 +16,8 @@ const App = ({
         (results) => {
           setRepos(results);
         }
-      ));
+      )
+    );
   }
 
   useEffect(() => {
